@@ -1,0 +1,7 @@
+{
+  "name": "BenefitLens",
+  "description": "Discover hidden credit card benefits instantly with multilingual support and context-aware recommendations.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
