@@ -6,7 +6,7 @@ import { benefitsCatalog } from '../data/benefits';
 import Header from '../components/Header';
 import { 
   ArrowLeft, CheckCircle2, AlertCircle, Lightbulb, 
-  HelpCircle, ExternalLink, CheckSquare, Shield,
+  HelpCircle, CheckSquare, Shield,
   FileText, ArrowRightLeft, Sparkles, Target, Zap, Clock, Info
 } from 'lucide-react';
 import { updateSession } from '../utils/session';
@@ -43,6 +43,10 @@ const BenefitDetail: React.FC = () => {
 
   const exp = benefit.simplifiedExplanation[lang];
 
+  // Helper for consistent label styling across languages
+  const labelClass = `text-[10px] font-black text-gray-400 px-1 ${lang === 'en' ? 'uppercase tracking-widest' : ''}`;
+  const metadataLabelClass = `text-[10px] font-black uppercase tracking-[0.25em] text-indigo-400 ${lang === 'en' ? '' : 'tracking-normal'}`;
+
   return (
     <div className="min-h-screen bg-gray-50 pb-20">
       <Header />
@@ -58,38 +62,37 @@ const BenefitDetail: React.FC = () => {
           
           <div className="flex items-center gap-3 bg-white px-5 py-2.5 rounded-2xl border border-indigo-100 shadow-sm">
             <Sparkles size={18} className="text-indigo-600" />
-            <span className="text-[10px] font-black uppercase text-indigo-600 tracking-[0.15em]">AI-Powered Insights</span>
+            <span className={`text-[10px] font-black text-indigo-600 ${lang === 'en' ? 'uppercase tracking-[0.15em]' : ''}`}>
+              {t('detail.aiInsights')}
+            </span>
           </div>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-          {/* Main Content: Human-Friendly Sections (8 Columns) */}
+          {/* Main Content (8 Columns) */}
           <div className="lg:col-span-8 space-y-10 animate-in fade-in slide-in-from-left-4 duration-500">
             <section className="bg-white rounded-[3rem] shadow-2xl border border-gray-100 overflow-hidden">
-              {/* Feature Hero */}
               <div className="bg-indigo-600 p-12 text-white relative">
                 <div className="absolute top-0 right-0 w-80 h-80 bg-white/10 rounded-full -mr-40 -mt-40 blur-3xl"></div>
                 <div className="relative z-10 space-y-6">
                   <div className="flex items-center gap-4">
                     <span className="bg-white/20 px-4 py-1.5 rounded-xl text-[10px] font-black uppercase tracking-widest backdrop-blur-xl border border-white/10">
-                      {benefit.category}
+                      {t(`filter.${benefit.category}`)}
                     </span>
                     <span className="text-[10px] font-black text-white/70 uppercase tracking-widest flex items-center gap-2">
-                      <Target size={14} /> {benefit.priority} Priority
+                      <Target size={14} /> {benefit.priority.toUpperCase()} {t('reason.priority').split(' ').pop()}
                     </span>
                   </div>
-                  <h1 className="text-5xl font-black leading-tight tracking-tight max-w-2xl">
+                  <h1 className="text-4xl md:text-5xl font-black leading-tight tracking-tight max-w-2xl">
                     {benefit.title[lang]}
                   </h1>
-                  <p className="text-2xl opacity-90 italic font-medium leading-relaxed border-l-4 border-white/30 pl-6">
+                  <p className="text-xl md:text-2xl opacity-90 italic font-medium leading-relaxed border-l-4 border-white/30 pl-6">
                     "{benefit.shortDescription[lang]}"
                   </p>
                 </div>
               </div>
 
-              {/* Simplified Discovery Sections */}
               <div className="p-12 space-y-16">
-                
                 {/* 1. WHAT YOU GET */}
                 <div className="space-y-6">
                   <div className="flex items-center gap-4">
@@ -167,9 +170,11 @@ const BenefitDetail: React.FC = () => {
           {/* Sidebar Area (4 Columns) */}
           <aside className="lg:col-span-4 space-y-8 animate-in fade-in slide-in-from-right-4 duration-500 lg:sticky lg:top-24">
             
-            {/* Action Card */}
+            {/* Engagement Portal Card */}
             <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 space-y-6">
-              <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Engagement Portal</h4>
+              <h4 className={labelClass}>
+                {t('detail.engagement')}
+              </h4>
               <button 
                 onClick={toggleUsed}
                 className={`w-full h-20 rounded-3xl font-black transition-all flex items-center justify-center gap-3 text-lg ${
@@ -179,47 +184,55 @@ const BenefitDetail: React.FC = () => {
                 }`}
               >
                 {isUsed ? <CheckCircle2 size={28} /> : <CheckSquare size={28} />}
-                {isUsed ? 'Benefit Redeemed' : 'Claim Now'}
+                {isUsed ? t('detail.redeemed') : t('detail.claimNow')}
               </button>
               
               <div className="grid grid-cols-2 gap-4">
                 <div className="p-5 bg-gray-50 rounded-3xl text-center border border-gray-100">
-                  <p className="text-[9px] font-black text-gray-400 uppercase tracking-tighter">Savings Estimate</p>
+                  <p className="text-[9px] font-black text-gray-400 uppercase tracking-tighter">
+                    {t('detail.savings')}
+                  </p>
                   <p className="text-2xl font-black text-gray-900">₹{benefit.monetaryValue}</p>
                 </div>
                 <div className="p-5 bg-gray-50 rounded-3xl text-center border border-gray-100">
-                  <p className="text-[9px] font-black text-gray-400 uppercase tracking-tighter">Active Status</p>
-                  <p className="text-2xl font-black text-indigo-600">Active</p>
+                  <p className="text-[9px] font-black text-gray-400 uppercase tracking-tighter">
+                    {t('detail.status')}
+                  </p>
+                  <p className="text-2xl font-black text-indigo-600">{t('detail.active')}</p>
                 </div>
               </div>
             </div>
 
-            {/* AI Relevance Reason Card */}
+            {/* AI Engine Scorecard */}
             <div className="bg-indigo-600 p-8 rounded-[2.5rem] text-white space-y-6 relative overflow-hidden shadow-2xl">
                <div className="absolute top-0 right-0 w-32 h-32 bg-white/10 rounded-full blur-3xl"></div>
                <div className="flex items-center gap-3 text-[10px] font-black uppercase tracking-widest opacity-80">
-                 <Zap size={18} /> Engine Scorecard
+                 <Zap size={18} /> {t('detail.engineScore')}
                </div>
                <div className="space-y-3">
-                 <p className="text-2xl font-black">AI Match: {relevanceScore}%</p>
+                 <p className="text-2xl font-black">{t('detail.engineMatch')}: {relevanceScore}%</p>
                  <p className="text-sm font-medium leading-relaxed text-indigo-100">
-                   This benefit is highly relevant based on your current <strong>{userContext.location}</strong> location and <strong>{userContext.isWeekend ? 'Weekend' : 'Weekday'}</strong> simulation.
+                   {t('detail.engineReason', { 
+                     location: t(`context.${userContext.location}`), 
+                     day: userContext.isWeekend ? t('context.weekend') : t('context.any') 
+                   })}
                  </p>
                </div>
                <div className="w-full h-2 bg-white/20 rounded-full overflow-hidden">
                   <div className="h-full bg-white transition-all duration-1000" style={{ width: `${relevanceScore}%` }}></div>
                </div>
                <div className="flex items-center gap-2 text-[10px] font-bold bg-white/10 p-3 rounded-2xl">
-                  {/* Fixed: Added Info icon import above */}
                   <Info size={14} />
-                  <span>Personalized recommendation engine result.</span>
+                  <span>{t('detail.engineInfo')}</span>
                </div>
             </div>
 
-            {/* Legalese Translator Sidebar */}
+            {/* Legalese Lens Card */}
             <div className="bg-white p-8 rounded-[2.5rem] shadow-xl border border-gray-100 space-y-6">
               <div className="flex items-center justify-between">
-                <h4 className="text-[10px] font-black text-gray-400 uppercase tracking-widest px-1">Legalese Lens</h4>
+                <h4 className={labelClass}>
+                  {t('detail.legaleseLens')}
+                </h4>
                 <button 
                   onClick={() => setShowOriginal(!showOriginal)}
                   className={`w-14 h-7 rounded-full relative transition-colors ${showOriginal ? 'bg-indigo-600' : 'bg-gray-200'}`}
@@ -230,32 +243,37 @@ const BenefitDetail: React.FC = () => {
               
               <div className="flex items-center gap-3 p-4 bg-gray-50 rounded-2xl text-gray-600 text-[11px] font-bold">
                 <ArrowRightLeft size={16} className="text-indigo-600 shrink-0" />
-                <span>Toggle to view the original contract jargon.</span>
+                <span>{t('detail.legaleseToggle')}</span>
               </div>
 
               {showOriginal && (
                 <div className="p-6 bg-gray-900 rounded-[2rem] text-[10px] text-gray-400 font-mono leading-relaxed animate-in zoom-in duration-300 relative">
-                  <div className="text-[8px] text-gray-600 mb-3 border-b border-gray-800 pb-2 flex items-center gap-2 font-sans font-black uppercase tracking-widest">
-                    <FileText size={12} /> Legal Metadata Source
+                  <div className="text-[8px] text-gray-600 mb-3 border-b border-gray-800 pb-2 flex items-center gap-2 font-black uppercase tracking-widest">
+                    <FileText size={12} /> {t('detail.legalSource')}
                   </div>
                   <p className="italic">{benefit.originalTnC}</p>
                 </div>
               )}
             </div>
 
-            {/* Issuer Trust Card */}
+            {/* Verified Issuer Card */}
             <div className="p-8 bg-gray-900 rounded-[2.5rem] text-white flex flex-col gap-4 border-2 border-indigo-500/10 shadow-inner">
                <div className="flex items-center gap-4">
                   <div className="w-14 h-14 bg-indigo-500/20 rounded-2xl flex items-center justify-center text-indigo-400">
                     <Shield size={28} />
                   </div>
                   <div>
-                    <p className="text-[10px] font-black uppercase tracking-[0.25em] text-indigo-400">Verified Issuer</p>
+                    <p className={metadataLabelClass}>
+                      {t('detail.verifiedIssuer')}
+                    </p>
                     <p className="font-black text-xl tracking-tight">{session?.issuer}</p>
                   </div>
                </div>
                <p className="text-[10px] text-gray-500 leading-tight">
-                 This benefit is guaranteed by {session?.issuer} and governed by the Visa {session?.cardType.replace('_', ' ')} network protocols.
+                 {t('detail.issuerGuarantee', { 
+                   issuer: session?.issuer || '', 
+                   cardType: session?.cardType.replace('_', ' ').toUpperCase() || '' 
+                 })}
                </p>
             </div>
           </aside>

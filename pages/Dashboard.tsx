@@ -8,7 +8,8 @@ import {
   Plane, Utensils, ShoppingBag, ShieldCheck, Fuel, 
   MapPin, Clock, Star, Sparkles, ChevronRight, TrendingUp, 
   ArrowUpDown, Bell, Mic, X, CalendarDays, CheckSquare, Info,
-  Settings2, Activity, Zap, Search, LayoutGrid, List, Sparkle
+  Settings2, Activity, Zap, Search, LayoutGrid, List, Sparkle,
+  Calculator, Banknote, Gauge
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 
@@ -33,6 +34,9 @@ const Dashboard: React.FC = () => {
     { id: 'travel', label: t('filter.travel'), icon: Plane },
     { id: 'dining', label: t('filter.dining'), icon: Utensils },
     { id: 'shopping', label: t('filter.shopping'), icon: ShoppingBag },
+    { id: 'emi', label: t('filter.emi'), icon: Calculator },
+    { id: 'loans', label: t('filter.loans'), icon: Banknote },
+    { id: 'credit_score', label: t('filter.credit_score'), icon: Gauge },
     { id: 'insurance', label: t('filter.insurance'), icon: ShieldCheck },
     { id: 'fuel', label: t('filter.fuel'), icon: Fuel },
   ];

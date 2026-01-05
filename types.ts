@@ -1,7 +1,7 @@
 
 export type CardType = 'visa_classic' | 'visa_signature' | 'visa_infinite' | 'unknown';
 export type Language = 'en' | 'ta' | 'hi';
-export type Category = 'all' | 'travel' | 'dining' | 'shopping' | 'insurance' | 'fuel';
+export type Category = 'all' | 'travel' | 'dining' | 'shopping' | 'insurance' | 'fuel' | 'emi' | 'loans' | 'credit_score';
 export type ContextLocation = 'any' | 'airport' | 'mall' | 'gas_station' | 'restaurant';
 
 export interface Benefit {
