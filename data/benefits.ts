@@ -249,6 +249,92 @@ export const benefitsCatalog: Benefit[] = [
     }
   },
   {
+    id: "benefit_4",
+    cardTypes: ["visa_signature", "visa_infinite", "visa_classic"],
+    category: "shopping",
+    priority: "medium",
+    title: {
+      en: "Online Shopping Protection",
+      ta: "ஆன்லைன் ஷாப்பிங் பாதுகாப்பு",
+      hi: "ऑनलाइन शॉपिंग सुरक्षा"
+    },
+    shortDescription: {
+      en: "Coverage against damage or non-delivery for online purchases",
+      ta: "ஆன்லைன் வாங்குதல்களுக்கு சேதம் அல்லது டெலிவரி செய்யப்படாததற்கு எதிரான கவரேஜ்",
+      hi: "ऑनलाइन खरीदारी के लिए क्षति या गैर-वितरण के खिलाफ कवरेज"
+    },
+    originalTnC: "Cardholder is insured against theft or accidental damage of eligible items purchased online for a period of 45 days from date of purchase...",
+    simplifiedExplanation: {
+      en: {
+        whatYouGet: "Insurance for items you buy online - get your money back if it arrives damaged or doesn't arrive at all",
+        howToUse: [
+          "Pay for your online shopping using this card",
+          "Keep digital invoice and order confirmation",
+          "If item is stolen or damaged within 45 days, file a claim online",
+          "Documentation required: police report or courier confirmation"
+        ],
+        limitations: [
+          "Maximum claim: ₹25,000 per year",
+          "Item must be over ₹2,000",
+          "Only for new items (not used or refurbished)",
+          "Claim must be filed within 7 days of event"
+        ],
+        proTips: [
+          "Perfect for expensive gadgets or furniture",
+          "Always record unboxing videos for high-value items",
+          "Use on trusted e-commerce platforms only"
+        ]
+      },
+      ta: {
+        whatYouGet: "நீங்கள் ஆன்லைனில் வாங்கும் பொருட்களுக்கான காப்பீடு - சேதமடைந்தால் அல்லது வராமல் போனால் உங்கள் பணத்தை திரும்பப் பெறுங்கள்",
+        howToUse: [
+          "இந்த கார்டைப் பயன்படுத்தி உங்கள் ஆன்லைன் ஷாப்பிங்கிற்கு பணம் செலுத்துங்கள்",
+          "டிஜிட்டல் விலைப்பட்டியல் மற்றும் ஆர்டர் உறுதிப்படுத்தலை வைத்திருங்கள்",
+          "45 நாட்களுக்குள் பொருள் திருடப்பட்டால் அல்லது சேதமடைந்தால், ஆன்லைனில் கோரிக்கை தாக்கல் செய்யவும்",
+          "தேவையான ஆவணங்கள்: போலீஸ் அறிக்கை அல்லது கூரியர் உறுதிப்படுத்தல்"
+        ],
+        limitations: [
+          "அதிகபட்ச உரிமை: வருடத்திற்கு ₹25,000",
+          "பொருள் ₹2,000க்கு மேல் இருக்க வேண்டும்",
+          "புதிய பொருட்களுக்கு மட்டும் (பயன்படுத்தப்பட்டவை அல்ல)",
+          "நிகழ்வு நடந்த 7 நாட்களுக்குள் கோரிக்கை தாக்கல் செய்யப்பட வேண்டும்"
+        ],
+        proTips: [
+          "விலையுயர்ந்த கேஜெட்டுகள் அல்லது தளபாடங்களுக்கு சிறந்தது",
+          "உயர் மதிப்புள்ள பொருட்களுக்கு எப்போதும் அன்பாக்சிங் வீடியோக்களை பதிவு செய்யவும்",
+          "நம்பகமான மின்-வணிக தளங்களில் மட்டும் பயன்படுத்தவும்"
+        ]
+      },
+      hi: {
+        whatYouGet: "ऑनलाइन खरीदी गई वस्तुओं के लिए बीमा - यदि सामान क्षतिग्रस्त हो जाए या न आए तो पैसे वापस पाएं",
+        howToUse: [
+          "इस कार्ड का उपयोग करके अपनी ऑनलाइन खरीदारी का भुगतान करें",
+          "डिजिटल इनवॉइस और ऑर्डर पुष्टिकरण रखें",
+          "यदि 45 दिनों के भीतर वस्तु चोरी या क्षतिग्रस्त हो जाती है, तो ऑनलाइन दावा करें",
+          "आवश्यक दस्तावेज: पुलिस रिपोर्ट या कूरियर पुष्टिकरण"
+        ],
+        limitations: [
+          "अधिकतम दावा: ₹25,000 प्रति वर्ष",
+          "वस्तु ₹2,000 से अधिक होनी चाहिए",
+          "केवल नई वस्तुओं के लिए (पुरानी नहीं)",
+          "घटना के 7 दिनों के भीतर दावा किया जाना चाहिए"
+        ],
+        proTips: [
+          "महंगे गैजेट्स या फर्नीचर के लिए बढ़िया",
+          "उच्च-मूल्य वाली वस्तुओं के लिए हमेशा अनबॉक्सिंग वीडियो रिकॉर्ड करें",
+          "केवल विश्वसनीय ई-कॉमर्स प्लेटफॉर्म पर उपयोग करें"
+        ]
+      }
+    },
+    monetaryValue: 1200,
+    usageFrequency: "unlimited",
+    activationMethod: "automatic",
+    relevanceTriggers: {
+      locations: ["mall", "any"],
+      dayOfWeek: "any"
+    }
+  },
+  {
     id: "benefit_5",
     cardTypes: ["visa_signature", "visa_infinite", "visa_classic"],
     category: "fuel",
@@ -325,6 +411,92 @@ export const benefitsCatalog: Benefit[] = [
     activationMethod: "automatic",
     relevanceTriggers: {
       locations: ["gas_station"],
+      dayOfWeek: "any"
+    }
+  },
+  {
+    id: "benefit_6",
+    cardTypes: ["visa_signature", "visa_infinite", "visa_classic"],
+    category: "insurance",
+    priority: "low",
+    title: {
+      en: "Personal Accident Insurance",
+      ta: "தனிநபர் விபத்து காப்பீடு",
+      hi: "व्यक्तिगत दुर्घटना बीमा"
+    },
+    shortDescription: {
+      en: "Complimentary coverage up to ₹2 Lakh for accidental protection",
+      ta: "விபத்து பாதுகாப்பிற்காக ₹2 லட்சம் வரை பாராட்டு கவரேஜ்",
+      hi: "आकस्मिक सुरक्षा के लिए ₹2 लाख तक का मुफ्त कवरेज"
+    },
+    originalTnC: "Complimentary personal accident insurance cover for death due to accident. Card must have been active with at least one transaction in last 30 days...",
+    simplifiedExplanation: {
+      en: {
+        whatYouGet: "Free insurance cover of ₹2,00,000 for you and your family in case of accidental emergencies",
+        howToUse: [
+          "Keep your card active (use it at least once every 30 days)",
+          "Ensure nominee details are updated in your bank records",
+          "In case of event, bank must be notified within 90 days",
+          "Submission of standard medical/police records required"
+        ],
+        limitations: [
+          "Card must have been used within 30 days prior to event",
+          "Coverage for death/permanent disability only",
+          "Doesn't cover risky adventure sports",
+          "Must have valid bank account"
+        ],
+        proTips: [
+          "Make sure your family knows this benefit exists",
+          "Regular card usage ensures continuous protection",
+          "Keep a copy of the policy terms downloaded"
+        ]
+      },
+      ta: {
+        whatYouGet: "விபத்து அவசரநிலைகளில் உங்களுக்கும் உங்கள் குடும்பத்திற்கும் ₹2,00,000 இலவச காப்பீடு",
+        howToUse: [
+          "உங்கள் கார்டை செயலில் வைத்திருங்கள் (30 நாட்களுக்கு ஒருமுறை பயன்படுத்தவும்)",
+          "வங்கி பதிவுகளில் நாமினி விவரங்கள் புதுப்பிக்கப்பட்டுள்ளதை உறுதி செய்யவும்",
+          "நிகழ்வு நடந்தால், 90 நாட்களுக்குள் வங்கிக்கு அறிவிக்கப்பட வேண்டும்",
+          "சாதாரண மருத்துவ/போலீஸ் பதிவுகளை சமர்ப்பிக்க வேண்டும்"
+        ],
+        limitations: [
+          "நிகழ்வுக்கு 30 நாட்களுக்கு முன்பு கார்டு பயன்படுத்தப்பட்டிருக்க வேண்டும்",
+          "இறப்பு/நிரந்தர ஊனம் ஆகியவற்றிற்கு மட்டுமே கவரேஜ்",
+          "ஆபத்தான விளையாட்டுக்களை உள்ளடக்காது",
+          "செல்லுபடியாகும் வங்கி கணக்கு இருக்க வேண்டும்"
+        ],
+        proTips: [
+          "இந்த பலன் இருப்பதை உங்கள் குடும்பத்தினருக்கு தெரியப்படுத்துங்கள்",
+          "தொடர்ச்சியான கார்டு பயன்பாடு பாதுகாப்பை உறுதி செய்கிறது",
+          "பாலிசி விதிமுறைகளின் நகலை பதிவிறக்கம் செய்து வைக்கவும்"
+        ]
+      },
+      hi: {
+        whatYouGet: "आकस्मिक आपात स्थिति के मामले में आपके और आपके परिवार के लिए ₹2,00,000 का मुफ्त बीमा कवर",
+        howToUse: [
+          "अपने कार्ड को सक्रिय रखें (हर 30 दिनों में कम से कम एक बार इसका उपयोग करें)",
+          "सुनिश्चित करें कि आपके बैंक रिकॉर्ड में नॉमिनी विवरण अपडेट हैं",
+          "घटना के मामले में, बैंक को 90 दिनों के भीतर सूचित किया जाना चाहिए",
+          "मानक चिकित्सा/पुलिस रिकॉर्ड जमा करना आवश्यक है"
+        ],
+        limitations: [
+          "घटना से 30 दिन पहले कार्ड का उपयोग किया जाना चाहिए",
+          "केवल मृत्यु/स्थायी विकलांगता के लिए कवरेज",
+          "जोखिम भरे साहसिक खेलों को कवर नहीं करता",
+          "वैध बैंक खाता होना चाहिए"
+        ],
+        proTips: [
+          "सुनिश्चित करें कि आपके परिवार को इस लाभ के बारे में पता है",
+          "नियमित कार्ड उपयोग निरंतर सुरक्षा सुनिश्चित करता है",
+          "पॉलिसी शर्तों की एक प्रति डाउनलोड करके रखें"
+        ]
+      }
+    },
+    monetaryValue: 200,
+    usageFrequency: "one-time",
+    activationMethod: "automatic",
+    relevanceTriggers: {
+      locations: ["any"],
       dayOfWeek: "any"
     }
   }

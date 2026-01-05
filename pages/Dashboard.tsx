@@ -52,26 +52,36 @@ const Dashboard: React.FC = () => {
   const scoredBenefits = useMemo(() => {
     return cardBenefits.map(benefit => {
       let score = 0;
-      let reason = "";
+      let reasonKey = "reason.base";
+      let reasonParams: Record<string, string> = {};
       
+      // Location match is highest weight (100 pts)
       if (userContext.location !== 'any' && benefit.relevanceTriggers.locations.includes(userContext.location)) {
         score += 100;
-        reason = `Near ${userContext.location.replace('_', ' ')}`;
+        reasonKey = "reason.location";
+        reasonParams = { location: t(`context.${userContext.location}`) };
       }
       
+      // Weekend match (40 pts)
       if (userContext.isWeekend && (benefit.relevanceTriggers.dayOfWeek === 'any' || (Array.isArray(benefit.relevanceTriggers.dayOfWeek) && benefit.relevanceTriggers.dayOfWeek.includes('saturday')))) {
          score += 40;
-         if (!reason) reason = "Weekend Multiplier Active";
+         if (reasonKey === "reason.base") reasonKey = "reason.weekend";
       }
       
-      if (benefit.priority === 'high') score += 30;
-      else if (benefit.priority === 'medium') score += 15;
+      // Priority (30 pts)
+      if (benefit.priority === 'high') {
+        score += 30;
+        if (reasonKey === "reason.base") reasonKey = "reason.priority";
+      } else if (benefit.priority === 'medium') {
+        score += 15;
+      }
 
-      score += (benefit.monetaryValue / 1000);
+      // Small value bonus to break ties
+      score += (benefit.monetaryValue / 5000);
       
-      return { ...benefit, score, reason: reason || "Base Benefit" };
+      return { ...benefit, score, reason: t(reasonKey, reasonParams) };
     });
-  }, [cardBenefits, userContext]);
+  }, [cardBenefits, userContext, t]);
 
   const recommendations = useMemo(() => {
     return [...scoredBenefits]
@@ -179,20 +189,20 @@ const Dashboard: React.FC = () => {
                     <Settings2 size={20} />
                   </div>
                   <div>
-                    <h3 className="text-xl font-black text-gray-900 tracking-tight">Discovery Context</h3>
-                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">Real-time relevance engine</p>
+                    <h3 className="text-xl font-black text-gray-900 tracking-tight">{t('context.title')}</h3>
+                    <p className="text-[10px] font-bold text-gray-400 uppercase tracking-widest">{t('context.subtitle')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-2 bg-indigo-50 px-3 py-1.5 rounded-2xl border border-indigo-100">
                   <Zap size={14} className="text-indigo-600 animate-pulse" />
-                  <span className="text-[9px] font-black text-indigo-700 uppercase tracking-widest">Live Optimization</span>
+                  <span className="text-[9px] font-black text-indigo-700 uppercase tracking-widest">{t('context.badge')}</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-[10px] font-black text-indigo-600 uppercase tracking-widest">
-                    <MapPin size={12} /> Simulate Location
+                    <MapPin size={12} /> {t('context.locLabel')}
                   </div>
                   <div className="grid grid-cols-2 gap-2">
                     {locations.map(loc => (
@@ -213,7 +223,7 @@ const Dashboard: React.FC = () => {
 
                 <div className="space-y-4">
                   <div className="flex items-center gap-2 text-[10px] font-black text-indigo-600 uppercase tracking-widest">
-                    <CalendarDays size={12} /> Simulate Day
+                    <CalendarDays size={12} /> {t('context.dayLabel')}
                   </div>
                   <button
                     onClick={() => setUserContext({ ...userContext, isWeekend: !userContext.isWeekend })}
@@ -224,7 +234,9 @@ const Dashboard: React.FC = () => {
                     }`}
                   >
                     <Clock size={20} />
-                    <span className="text-xs font-black uppercase tracking-widest">{userContext.isWeekend ? 'Weekend Active' : 'Weekday Mode'}</span>
+                    <span className="text-xs font-black uppercase tracking-widest">
+                      {userContext.isWeekend ? t('context.weekendActive') : t('context.weekdayActive')}
+                    </span>
                   </button>
                 </div>
               </div>
@@ -240,43 +252,48 @@ const Dashboard: React.FC = () => {
                       <h3 className="text-2xl font-black text-gray-900 tracking-tight">{t('dashboard.recommendations')}</h3>
                     </div>
                     <button onClick={() => setActiveTab('all')} className="text-[10px] font-black text-indigo-600 uppercase tracking-widest hover:underline">
-                      See All {cardBenefits.length} →
+                      {t('dashboard.explore')} {cardBenefits.length} →
                     </button>
                   </div>
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {recommendations.map((benefit, idx) => (
-                      <div 
-                        key={benefit.id}
-                        onClick={() => navigate(`/benefit/${benefit.id}`)}
-                        className="group bg-white border-2 border-orange-100 p-6 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden flex flex-col"
-                      >
-                        <div className="absolute top-4 right-4 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider">
-                          Best Match
+                    {recommendations.map((benefit, idx) => {
+                      const isHighMatch = benefit.score > 50;
+                      return (
+                        <div 
+                          key={benefit.id}
+                          onClick={() => navigate(`/benefit/${benefit.id}`)}
+                          className={`group bg-white border-2 p-6 rounded-[2.5rem] shadow-sm hover:shadow-2xl hover:-translate-y-1 transition-all cursor-pointer relative overflow-hidden flex flex-col ${isHighMatch ? 'border-orange-100 ring-2 ring-orange-50/50' : 'border-gray-50'}`}
+                        >
+                          {isHighMatch && (
+                            <div className="absolute top-4 right-4 bg-orange-100 text-orange-600 px-2 py-1 rounded-lg text-[9px] font-black uppercase tracking-wider">
+                              {t('benefit.match')}
+                            </div>
+                          )}
+                          <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform">
+                            {categories.find(c => c.id === benefit.category)?.icon && React.createElement(categories.find(c => c.id === benefit.category)!.icon, { size: 24 })}
+                          </div>
+                          <h4 className="font-bold text-gray-900 mb-2 leading-tight text-lg">{benefit.title[lang]}</h4>
+                          <div className="flex items-center gap-2 mb-4 bg-indigo-50/50 p-2 rounded-xl border border-indigo-100">
+                            <Zap size={14} className="text-indigo-600 shrink-0" />
+                            <p className="text-[9px] font-black text-indigo-700 leading-none truncate">{benefit.reason}</p>
+                          </div>
+                          <p className="text-xs text-gray-500 line-clamp-2 mt-auto">{benefit.shortDescription[lang]}</p>
                         </div>
-                        <div className="w-12 h-12 bg-indigo-50 rounded-2xl flex items-center justify-center text-indigo-600 mb-6 group-hover:scale-110 transition-transform">
-                          {categories.find(c => c.id === benefit.category)?.icon && React.createElement(categories.find(c => c.id === benefit.category)!.icon, { size: 24 })}
-                        </div>
-                        <h4 className="font-bold text-gray-900 mb-2 leading-tight text-lg">{benefit.title[lang]}</h4>
-                        <div className="flex items-center gap-2 mb-4 bg-indigo-50/50 p-2 rounded-xl border border-indigo-100">
-                          <Zap size={14} className="text-indigo-600 shrink-0" />
-                          <p className="text-[9px] font-black text-indigo-700 leading-none truncate">{benefit.reason}</p>
-                        </div>
-                        <p className="text-xs text-gray-500 line-clamp-2 mt-auto">{benefit.shortDescription[lang]}</p>
-                      </div>
-                    ))}
+                      );
+                    })}
                   </div>
                 </section>
 
                 <section className="bg-indigo-900 rounded-[2.5rem] p-10 text-white relative overflow-hidden shadow-2xl">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full -mr-32 -mt-32 blur-3xl"></div>
                   <div className="relative z-10 space-y-6">
-                     <h3 className="text-3xl font-black leading-tight tracking-tight">Browse Everything Altogether</h3>
-                     <p className="text-lg opacity-70 font-medium max-w-md">Looking for something specific? Search and filter our complete catalog of benefits for your {session?.cardType.replace('_', ' ')} card.</p>
+                     <h3 className="text-3xl font-black leading-tight tracking-tight">{t('catalog.ctaTitle')}</h3>
+                     <p className="text-lg opacity-70 font-medium max-w-md">{t('catalog.ctaDesc', { cardType: session?.cardType.replace('_', ' ') || '' })}</p>
                      <button 
                        onClick={() => setActiveTab('all')}
                        className="bg-white text-indigo-900 px-8 py-4 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl hover:scale-105 transition-all flex items-center gap-2"
                      >
-                       Explore All Benefits <ArrowUpDown size={18} />
+                       {t('catalog.cta')} <ArrowUpDown size={18} />
                      </button>
                   </div>
                 </section>
@@ -289,8 +306,8 @@ const Dashboard: React.FC = () => {
                 <section className="bg-white rounded-[2.5rem] p-8 md:p-10 shadow-lg border border-gray-100 space-y-8">
                   <div className="flex flex-col md:flex-row md:items-center justify-between gap-6">
                     <div className="space-y-1">
-                      <h3 className="text-3xl font-black text-gray-900 tracking-tight">Program Catalog</h3>
-                      <p className="text-sm font-bold text-gray-400">Viewing all {cardBenefits.length} benefits</p>
+                      <h3 className="text-3xl font-black text-gray-900 tracking-tight">{t('catalog.title')}</h3>
+                      <p className="text-sm font-bold text-gray-400">{t('catalog.subtitle', { count: cardBenefits.length.toString() })}</p>
                     </div>
                     
                     <div className="flex flex-col sm:flex-row gap-3">
@@ -298,7 +315,7 @@ const Dashboard: React.FC = () => {
                         <Search className="absolute left-4 top-1/2 -translate-y-1/2 text-gray-400 group-focus-within:text-indigo-600" size={18} />
                         <input 
                           type="text"
-                          placeholder="Search any perk..."
+                          placeholder={t('catalog.search')}
                           value={searchQuery}
                           onChange={(e) => setSearchQuery(e.target.value)}
                           className="w-full sm:w-64 h-12 pl-12 pr-4 bg-gray-50 rounded-2xl border-2 border-transparent focus:border-indigo-600 focus:bg-white transition-all outline-none font-bold text-sm"
@@ -330,7 +347,7 @@ const Dashboard: React.FC = () => {
 
                   <div className="flex items-center justify-between border-t border-gray-50 pt-6">
                     <div className="text-[10px] font-black text-gray-400 uppercase tracking-widest">
-                      Ranking by: <span className="text-indigo-600">{sortBy.toUpperCase()}</span>
+                      {t('catalog.ranking')} <span className="text-indigo-600">{sortBy.toUpperCase()}</span>
                     </div>
                     <div className="flex items-center gap-2">
                       <ArrowUpDown size={14} className="text-gray-400" />
@@ -385,26 +402,26 @@ const Dashboard: React.FC = () => {
             <div className="bg-indigo-600 rounded-[2.5rem] shadow-xl p-8 text-white space-y-8 relative overflow-hidden">
               <div className="absolute -bottom-10 -right-10 w-48 h-48 bg-white/10 rounded-full blur-3xl"></div>
               <div className="flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] opacity-80">
-                <Activity size={16} /> Dashboard Stats
+                <Activity size={16} /> {t('sidebar.stats')}
               </div>
               <div className="space-y-6">
                 <div>
-                   <p className="text-[10px] font-bold uppercase opacity-60">Total Potential Value</p>
+                   <p className="text-[10px] font-bold uppercase opacity-60">{t('sidebar.potential')}</p>
                    <p className="text-4xl font-black tracking-tight">₹{totalPotentialSavings.toLocaleString()}</p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
                   <div className="bg-white/10 p-5 rounded-3xl border border-white/10">
-                    <p className="text-[9px] font-bold uppercase opacity-60">Used</p>
+                    <p className="text-[9px] font-bold uppercase opacity-60">{t('sidebar.used')}</p>
                     <p className="text-2xl font-black">{exploredCount}</p>
                   </div>
                   <div className="bg-white/10 p-5 rounded-3xl border border-white/10">
-                    <p className="text-[9px] font-bold uppercase opacity-60">Available</p>
+                    <p className="text-[9px] font-bold uppercase opacity-60">{t('sidebar.available')}</p>
                     <p className="text-2xl font-black">{cardBenefits.length - exploredCount}</p>
                   </div>
                 </div>
                 <div className="space-y-3">
                   <div className="flex justify-between text-[11px] font-black uppercase">
-                    <span className="opacity-70">Utilization</span>
+                    <span className="opacity-70">{t('sidebar.utilization')}</span>
                     <span>{Math.round(progressPercent)}%</span>
                   </div>
                   <div className="w-full h-3 bg-white/20 rounded-full overflow-hidden">
@@ -417,10 +434,10 @@ const Dashboard: React.FC = () => {
             <div className="p-8 bg-gray-900 rounded-[2.5rem] text-white space-y-6 border border-white/5">
               <div className="flex items-center gap-3">
                  <ShieldCheck size={24} className="text-indigo-400" />
-                 <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400">Security Verified</div>
+                 <div className="text-[10px] font-black uppercase tracking-[0.2em] text-indigo-400">{t('sidebar.security')}</div>
               </div>
               <p className="text-xs text-gray-400 leading-relaxed font-medium">
-                BenefitLens operates on a <strong>zero-data model</strong>. No PII is stored. Sessions are destroyed after 15 minutes of inactivity.
+                {t('sidebar.securityDesc')}
               </p>
               <div className="flex items-center justify-between pt-4 border-t border-white/10 text-[9px] font-mono opacity-40 uppercase tracking-widest">
                 <span>Status: Encrypted</span>
@@ -429,9 +446,9 @@ const Dashboard: React.FC = () => {
             </div>
 
             <div className="p-6 bg-white border border-gray-100 rounded-[2rem] text-center space-y-3 shadow-sm">
-               <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">Help & Support</div>
-               <p className="text-[11px] font-bold text-gray-700 leading-tight">Consult your bank's portal for enrollment or claim assistance.</p>
-               <button className="text-indigo-600 text-[10px] font-black uppercase hover:underline">Issuer Support →</button>
+               <div className="text-[9px] font-black text-gray-400 uppercase tracking-widest">{t('sidebar.help')}</div>
+               <p className="text-[11px] font-bold text-gray-700 leading-tight">{t('sidebar.helpDesc')}</p>
+               <button className="text-indigo-600 text-[10px] font-black uppercase hover:underline">{t('sidebar.issuerSupport')} →</button>
             </div>
           </aside>
 
@@ -445,7 +462,7 @@ const Dashboard: React.FC = () => {
       >
         <Mic size={28} />
         <span className="absolute right-20 bg-gray-900 text-white px-4 py-2 rounded-2xl text-[10px] font-black shadow-2xl opacity-0 group-hover:opacity-100 transition-all whitespace-nowrap translate-x-4 group-hover:translate-x-0 tracking-widest uppercase">
-          AI Voice Assistant
+          {t('voice.assistant')}
         </span>
       </button>
 
@@ -461,9 +478,9 @@ const Dashboard: React.FC = () => {
               <Mic size={56} className="animate-pulse" />
             </div>
           </div>
-          <h2 className="text-3xl font-black mb-6 tracking-tight">AI Voice Discovery</h2>
+          <h2 className="text-3xl font-black mb-6 tracking-tight">{t('voice.prompt')}</h2>
           <div className="text-2xl md:text-4xl font-medium text-center text-indigo-200 max-w-2xl h-16 italic tracking-tight">
-            {voiceSearchText || "What are you looking for?"}
+            {voiceSearchText || t('voice.listening')}
           </div>
         </div>
       )}
@@ -472,7 +489,7 @@ const Dashboard: React.FC = () => {
       <div className="fixed bottom-6 left-1/2 -translate-x-1/2 bg-white/95 backdrop-blur-md shadow-2xl border border-indigo-50 rounded-2xl px-8 py-4 flex items-center gap-4 z-40">
         <div className={`w-3 h-3 rounded-full ${expiryWarningShown ? 'bg-red-500 animate-ping' : 'bg-indigo-600'}`}></div>
         <span className={`text-[11px] font-black uppercase tracking-[0.2em] ${expiryWarningShown ? 'text-red-600' : 'text-indigo-900'}`}>
-          SESSION EXPIRES IN {Math.max(0, Math.ceil((session!.expiresAt - Date.now()) / 60000))}M
+          {t('session.expires', { minutes: Math.max(0, Math.ceil((session!.expiresAt - Date.now()) / 60000)).toString() })}
         </span>
       </div>
 
