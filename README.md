@@ -62,37 +62,37 @@ To put this app on the internet:
 - **Visa Infinite (ICICI)**: `4485275742308327`
 - **Visa Classic (HDFC)**: `4111 1111 1111 1111`
 ### Technology Stack
-**Frontend:**</br>
+- **Frontend:**</br>
 -React</br>
 -TypeScript</br>
 -Tailwind CSS</br>
 -Vite</br>
 -Lucide</br>
-**Backend:**</br>
+- **Backend:**</br>
 -Node.js</br>
 -Express.js</br>
 -REST API Architecture</br>
 -Environment Variable Management using dotenv</br>
-**Database & Caching:**</br>
+- **Database & Caching:**</br>
 -Redis</br>
 -Session Management</br>
 -BIN Lookup Result Caching</br>
 -Temporary User Session Storage</br>
-**Payment Card Processing:**</br>
+- **Payment Card Processing:**</br>
 -Luhn Algorithm Validation</br>
 -BIN/IIN Analysis</br>
 -Visa Card Product Classification</br>
 -Card Issuer Identification</br>
 -Benefit Recommendation Engine</br>
-**External Integrations**</br>
+- **External Integrations**</br>
 -Google Gemini API (if used for benefit explanations, recommendations, or chatbot features)</br>
-**Security:**</br>
+- **Security:**</br>
 -Session-based Authentication</br>
 -Environment Variable Protection</br>
 -API Key Management</br>
 -Server-side Card Validation</br>
 -Redis Session Expiration</br>
-**DevOps & Development Tools:**</br>
+- **DevOps & Development Tools:**</br>
 -Docker (Redis Container)</br>
 -Git</br>
 -GitHub</br>
