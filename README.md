@@ -61,42 +61,41 @@ To put this app on the internet:
 - **Visa Signature (SBI)**: `4012888888881881`
 - **Visa Infinite (ICICI)**: `4485275742308327`
 - **Visa Classic (HDFC)**: `4111 1111 1111 1111`
-## Technology Stack
--**Frontend:**
-React
-TypeScript
-Tailwind CSS
-Vite
-Lucide
--**Backend:**
-Node.js
-Express.js
-REST API Architecture
-Environment Variable Management using dotenv
--**Database & Caching:**
-Redis
-Session Management
-BIN Lookup Result Caching
-Temporary User Session Storage
--**Payment Card Processing:**
-Luhn Algorithm Validation
-BIN/IIN Analysis
-Visa Card Product Classification
-Card Issuer Identification
-Benefit Recommendation Engine
--**External Integrations**
-BINList API (BIN Intelligence Lookup)
-Google Gemini API (if used for benefit explanations, recommendations, or chatbot features)
--**Security:**
-Session-based Authentication
-Environment Variable Protection
-API Key Management
-Server-side Card Validation
-Redis Session Expiration
--**DevOps & Development Tools:**
-Docker (Redis Container)
-Git
-GitHub
-Postman
-npm Package Manager
+### Technology Stack
+**Frontend:**</br>
+-React</br>
+-TypeScript</br>
+-Tailwind CSS</br>
+-Vite</br>
+-Lucide</br>
+**Backend:**</br>
+-Node.js</br>
+-Express.js</br>
+-REST API Architecture</br>
+-Environment Variable Management using dotenv</br>
+**Database & Caching:**</br>
+-Redis</br>
+-Session Management</br>
+-BIN Lookup Result Caching</br>
+-Temporary User Session Storage</br>
+**Payment Card Processing:**</br>
+-Luhn Algorithm Validation</br>
+-BIN/IIN Analysis</br>
+-Visa Card Product Classification</br>
+-Card Issuer Identification</br>
+-Benefit Recommendation Engine</br>
+**External Integrations**</br>
+-Google Gemini API (if used for benefit explanations, recommendations, or chatbot features)</br>
+**Security:**</br>
+-Session-based Authentication</br>
+-Environment Variable Protection</br>
+-API Key Management</br>
+-Server-side Card Validation</br>
+-Redis Session Expiration</br>
+**DevOps & Development Tools:**</br>
+-Docker (Redis Container)</br>
+-Git</br>
+-GitHub</br>
+-Postman</br>
+-npm Package Manager</br>
 
