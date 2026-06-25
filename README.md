@@ -29,8 +29,8 @@ BenefitLens is an AI-powered, privacy-first platform designed to help credit car
    ```
    you should see something similar to:
    
-   <br>CONTAINER ID        IMAGE       PORTS</br>
-   <br>abc123              redis       0.0.0.0:6379->6379/tcp</br>
+   <br>CONTAINER ID</br>        <br>IMAGE</br>       <br>PORTS</br>
+   <br>abc123</br>              <br>redis</br>       <br>0.0.0.0:6379->6379/tcp</br>
 6. Open command prompt: ensure you are in the BenefitLens_flash dir and Install dependencies:
    ```bash
    npm install
